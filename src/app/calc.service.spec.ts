@@ -26,17 +26,28 @@ describe('CalcService', () =>{ // 1. create a test suite
   // to know specifically that the mySharedService() is being called from another service
   // create a new spec
   
+  // it('should call mySharedFunction()', () => {
+  //   const shared  = new SharedService();
+  //   const calc = new CalcService(shared);
+  //   // spyOn(shared,"mySharedFunction"); // will not call the mySharedFunction, this ()  was being called from above spec.
+  //   // spyOn : to spy / detect.
+  //   // To call the mySharedFunction() :
+  //   spyOn(shared,"mySharedFunction").and.callThrough(); 
+  //   const result = calc.multiply(3,5); // we need it to trigger the call made to mySharedFunction();
+  //   expect(shared.mySharedFunction).toHaveBeenCalled();  // Now the actual implementation will be called.
+  //   // toHaveBeenCalled expects spy object, without it test will break
+  //   // expect(result).toBe(15);
+  // });
+
+  // Passing the shared service instance in calcservice would actually instatntiate the original service & thus 
+  // call the construtcor, How can we stop making calls to the constructor? 
+  // By mocking the service using "createSpyObj()" and by giving the list of function names.
+
   it('should call mySharedFunction()', () => {
-    const shared  = new SharedService();
-    const calc = new CalcService(shared);
-    // spyOn(shared,"mySharedFunction"); // will not call the mySharedFunction, this ()  was being called from above spec.
-    // spyOn : to spy / detect.
-    // To call the mySharedFunction() :
-    spyOn(shared,"mySharedFunction").and.callThrough(); 
+    // const shared  = new SharedService();
+    const shared = jasmine.createSpyObj("SharedService",["mySharedFunction"]); //using mock service as a dependency
+    const calc = new CalcService(shared); 
     const result = calc.multiply(3,5);
     expect(shared.mySharedFunction).toHaveBeenCalled();  // Now the actual implementation will be called.
-    // toHaveBeenCalled expects spy object, without it test will break
-    // expect(result).toBe(15);
   });
-
 });
