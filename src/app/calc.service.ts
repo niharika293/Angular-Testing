@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalcService {
 
-  constructor() { }
+  // Since we're injecting sharedService here, so sharedService is the dependency service. 
+  constructor(private sharedService : SharedService) { }
 
   multiply(num1: number, num2: number){
+    this.sharedService.mySharedFunction();
     return num1 * num2;
   }
 }
