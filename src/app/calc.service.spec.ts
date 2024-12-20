@@ -17,12 +17,29 @@ import { SharedService } from './shared.service';
 // });
 
 describe('CalcService', () =>{ // 1. create a test suite
-  // it('should multiply 2 numbers', () =>{ // Test specification
-  //   const shared = new SharedService();
-  //   const calc = new CalcService(shared); //Creating instance of the service
-  //   const result = calc.multiply(3,5); // storing result
-  //   expect(result).toBe(15); //expecting result by using expect utility
-  // });
+  let shared : SharedService;
+  let calc : CalcService;
+  beforeEach(() =>{
+    console.log("Inside before each"); // will be called for every test spec & thus useful to share common code
+    // So, instead of instantiating the services in each specification , we can do that here
+    shared = new SharedService()
+    calc = new CalcService(shared);
+  });
+
+  it('should multip;ly 2 numbers', () =>{ // Test specification
+    // const shared = new SharedService();
+    // const calc = new CalcService(shared); //Creating instance of the service
+    const result = calc.multiply(3,5); // storing result
+    expect(result).toBe(15); //expecting result by using expect utility
+  });
+
+  it('should add 2 numbers', () =>{ // Test specification
+    // const shared = new SharedService();
+    // const calc = new CalcService(shared); //Creating instance of the service
+    const result = calc.add(3,5); // storing result
+    expect(result).toBe(8); //expecting result by using expect utility
+  });
+
   // to know specifically that the mySharedService() is being called from another service
   // create a new spec
   
@@ -43,11 +60,13 @@ describe('CalcService', () =>{ // 1. create a test suite
   // call the construtcor, How can we stop making calls to the constructor? 
   // By mocking the service using "createSpyObj()" and by giving the list of function names.
 
-  it('should call mySharedFunction()', () => {
-    // const shared  = new SharedService();
-    const shared = jasmine.createSpyObj("SharedService",["mySharedFunction"]); //using mock service as a dependency
-    const calc = new CalcService(shared); 
-    const result = calc.multiply(3,5);
-    expect(shared.mySharedFunction).toHaveBeenCalled();  // Now the actual implementation will be called.
-  });
+  // it('should call mySharedFunction()', () => {
+  //   // const shared  = new SharedService();
+  //   const shared = jasmine.createSpyObj("SharedService",["mySharedFunction"]); //using mock service as a dependency
+  //   const calc = new CalcService(shared); 
+  //   const result = calc.multiply(3,5);
+  //   expect(shared.mySharedFunction).toHaveBeenCalled();  // Now the actual implementation will be called.
+  // });
+
+  
 });
