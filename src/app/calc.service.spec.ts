@@ -22,18 +22,43 @@ describe('CalcService', () =>{ // 1. create a test suite
   beforeEach(() =>{
     console.log("Inside before each"); // will be called for every test spec & thus useful to share common code
     // So, instead of instantiating the services in each specification , we can do that here
-    shared = new SharedService()
-    calc = new CalcService(shared);
+    // shared = new SharedService()
+    // calc = new CalcService(shared);
+    // Here, we're manually craeting the instances of the services & not using the dependency injections.
+    // to avoid that, we can use Test bed utitlity
+    // Similar to defining a module
+    shared = jasmine.createSpyObj("SharedService",["mySharedFunction"]);
+    TestBed.configureTestingModule({
+      providers : [CalcService, {
+          provide : SharedService, useValue : shared //for using spyobjects
+      }]
+    });
+    // Now, we'll inject these services.
+    // shared = TestBed.inject(SharedService); 
+    calc = TestBed.inject(CalcService); // this will create an actual instance of the service
+
+    // assume, we're using the spy object instead of actual service.
+    // for that we need to use the *provide* property in the providers
+
+    // To skip a particular test suite - use x in front of describe => xdescribe.
+    // To skip a particular test spec - use x in front of it => xit.
+
+    // To focus on a particular test suite - use f in front of describe => fdescribe.
+    // To focus on a particular test spec - use f in front of it => fit.
+    // By focusing on a particular suite / spec, all other suites / specs are ignored.
+
+    // wherever we use xit, those specs will be coming under pending test specs.
+
   });
 
-  it('should multip;ly 2 numbers', () =>{ // Test specification
+  xit('should multiply 2 numbers', () =>{ // Test specification
     // const shared = new SharedService();
     // const calc = new CalcService(shared); //Creating instance of the service
     const result = calc.multiply(3,5); // storing result
     expect(result).toBe(15); //expecting result by using expect utility
   });
 
-  it('should add 2 numbers', () =>{ // Test specification
+  fit('should add 2 numbers', () =>{ // Test specification
     // const shared = new SharedService();
     // const calc = new CalcService(shared); //Creating instance of the service
     const result = calc.add(3,5); // storing result
