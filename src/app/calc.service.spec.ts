@@ -58,7 +58,7 @@ describe('CalcService', () =>{ // 1. create a test suite
     expect(result).toBe(15); //expecting result by using expect utility
   });
 
-  fit('should add 2 numbers', () =>{ // Test specification
+  it('should add 2 numbers', () =>{ // Test specification
     // const shared = new SharedService();
     // const calc = new CalcService(shared); //Creating instance of the service
     const result = calc.add(3,5); // storing result

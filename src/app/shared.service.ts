@@ -12,4 +12,8 @@ export class SharedService {
   mySharedFunction(){
     console.log("Inside myShared()");
   }
+
+  getData(){
+    return ("real data");
+  }
 }
