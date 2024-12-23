@@ -1,12 +1,39 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { SharedService } from './shared.service';
 
 describe('AppComponent', () => { // test - suite : has 3 test specs here
   let shared : SharedService;
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  let app : AppComponent;
+  let fixture : ComponentFixture<AppComponent>;
+// async: Marks beforeEach as asynchronous, allowing await.
+// await: Ensures compileComponents() completes before proceeding.
+// The SharedService is injected into the test environment only after 
+// all asynchronous operations are completed.
+  // beforeEach(async () => {
+  //   await TestBed.configureTestingModule({
+  //     imports: [
+  //       RouterTestingModule
+  //     ],
+  //     declarations: [
+  //       AppComponent
+  //     ],
+  //     providers : [
+  //       SharedService
+  //     ]
+  //   }).compileComponents();
+  //   shared = TestBed.inject(SharedService);
+  // });
+
+  // Alternative for async await : waitForAsync : Utility Wraps a test function in an asynchronous test zone. The test will automatically complete when all asynchronous calls within this zone are done. 
+
+  // However, all test cases are yet being passed here without async await as currently in this project setup, we don't have
+  // any async operations. 
+  // However, in real-world applications, components often involve asynchronous behavior. Using async ensures your tests are future-proof and can handle asynchronous operations gracefully when required. 
+  
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
       ],
@@ -18,17 +45,17 @@ describe('AppComponent', () => { // test - suite : has 3 test specs here
       ]
     }).compileComponents();
     shared = TestBed.inject(SharedService);
-  });
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+  }));
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
   it(`should have as title 'angular-testing'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
+    // const fixture = TestBed.createComponent(AppComponent);
+    // const app = fixture.componentInstance;
     expect(app.title).toEqual('angular-testing');
   });
 
